@@ -1,8 +1,8 @@
 package Model.Helpers;
 
 public class Cooldown {
-    int abilityCooldown;
-    int remainingCooldown;
+    private int abilityCooldown;
+    private int remainingCooldown;
 
     public Cooldown(int abilityCooldown) {
         if (abilityCooldown < 0)

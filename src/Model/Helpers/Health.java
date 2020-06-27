@@ -1,8 +1,8 @@
 package Model.Helpers;
 
 public class Health {
-    int healthPool;
-    int healthAmount;
+    private int healthPool;
+    private int healthAmount;
 
     public Health(int healthPool){
         this.healthPool = healthPool;
@@ -13,4 +13,14 @@ public class Health {
     public void SetHealthAmount(int healthAmount){this.healthAmount = Math.min (healthAmount, healthPool);}
     public int GetHealthPool(){return healthPool;}
     public int GetHealthAmount(){return healthAmount;}
+
+    public int UpdateHealthAmount(int add){
+        if (healthAmount + add > healthPool) {
+            healthAmount = healthPool;
+            return healthPool - healthAmount;
+        }
+        else
+            healthAmount = healthAmount + add;
+        return add;
+    }
 }

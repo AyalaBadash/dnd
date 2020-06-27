@@ -1,6 +1,8 @@
 package Model.Unit.Player;
 
+import View.Level;
 import Model.Helpers.Energy;
+import Model.Tile.EmptyTile;
 import Model.Unit.Enemy.Enemy;
 import View.Turn;
 
@@ -27,8 +29,38 @@ public class Rogue extends Player{
     }
 
     @Override
-    public Turn OnAbilityCast(List<Enemy> enemies) {
-        return null;
+    public String OnLevelUp(){
+        String output = super.OnLevelUp ();
+        energy.OnLevelUp ();
+        attackPoints += 3*playerLevel;
+        output = output + "+" + 7*playerLevel +" Attack, ";
+        output = output + "+" + playerLevel + " Defense";
+        return output;
+    }
+
+    @Override
+    public Turn OnAbilityCast(Level level) {
+        if(energy.GetCurrEnergy () < cost)
+            return new Turn ( "You don't have enough energy yet." );
+        String output = name + " cast Fan of Knives.";
+        List<Enemy> enemiesInRange = FindEnemies ( 2, level.GetEnemies () );
+        if(enemiesInRange.size () == 0)
+            return new Turn(output + "\nNo enemies in range.");
+        for ( Enemy enemy: enemiesInRange ) {
+            int defense = enemy.Defense ( );
+            output = output + "\n" + enemy.GetName ( ) + " rolled " + defense + " defense points.";
+            int damage = Damage ( defense, attackPoints );
+            output = output + "\n" + name + " hit " + enemy.GetName ( ) + " for " + damage + " ability damage.";
+            enemy.AfterAttack ( damage );
+            if (!enemy.isAlive ( )) {
+                output = output + "\n" + enemy.GetName ( ) + " died. " + name + " gained " + enemy.GetExperience ( ) + " experience.";
+                output = output + UpdateExperience ( enemy.GetExperience ( ) );
+                level.GetBoard ( ).GetBoard ( )[enemy.GetPosition ( ).y][enemy.GetPosition ( ).x] = new EmptyTile ( enemy.GetPosition ( ).y, enemy.GetPosition ( ).x );
+                enemy.SetPosition ( null );
+                level.GetEnemies ( ).remove ( enemy );
+            }
+        }
+        return new Turn ( output );
     }
 
     @Override

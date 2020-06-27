@@ -1,14 +1,15 @@
 package Model.Helpers;
 
 public class Visibility {
-    int visibilityTime;
-    int invisibilityTime;
-    int ticksCount;
-    boolean visible;
+    private int visibilityTime;
+    private int invisibilityTime;
+    private int ticksCount;
+    private boolean visible;
 
     public Visibility (int visibilityTime, int invisibilityTime){
         this.invisibilityTime = invisibilityTime;
         this.visibilityTime = visibilityTime;
+        visible = true;
         ticksCount = 0;
     }
 

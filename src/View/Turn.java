@@ -11,7 +11,8 @@ public class Turn implements Printer {
 
     @Override
     public void Print() {
-        System.out.println (turnDescribe );
+        if(turnDescribe.length () > 0)
+            System.out.println (turnDescribe );
     }
 
     public void SetTurnDescribe(String turnDescribe){this.turnDescribe = turnDescribe;}

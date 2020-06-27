@@ -1,9 +1,9 @@
 package Model.Helpers;
 
 public class Mana {
-    int manaPool;
-    int manaCost;
-    int currMana;
+    private int manaPool;
+    private int manaCost;
+    private int currMana;
 
     public Mana(int manaPool, int manaCost) {
         this.manaPool = manaPool;
@@ -33,8 +33,9 @@ public class Mana {
 
     public void SetCurrMana(int currMana) {
         this.currMana = Math.min (currMana, manaPool) ;
-
     }
+
+    public void AfterUsing(){currMana = currMana - manaCost; }
 
     public void OnGameTick(int level) {
         SetCurrMana ( currMana + level );

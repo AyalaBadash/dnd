@@ -1,7 +1,7 @@
 package Controller;
 
 import Model.Unit.Player.Player;
-import View.GameBoard;
+import View.Level;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,13 +12,15 @@ import java.util.List;
 
 public class BoardCreator {
 
-    private char  player;
+    private char playerInputChar;
     private String path;
     private Player currPlayer;
 
-    public BoardCreator(char player, String path)
+    public BoardCreator(char playerInputChar, String path)
     {
-        this.player = player;
+        PlayerCreator pc = new PlayerCreator ();
+        this.playerInputChar = playerInputChar;
+        currPlayer = (Player)pc.Create ( playerInputChar, -1,-1 );
         this.path = path;
     }
 
@@ -41,7 +43,7 @@ public class BoardCreator {
         {
             System.out.println (e.getMessage () );
         }
-        Level level = new Level (player);
+        Level level = new Level ( currPlayer );
         currPlayer = level.CreateBoardToLevel (levelLines);
         return level;
     }

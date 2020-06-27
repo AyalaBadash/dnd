@@ -1,12 +1,10 @@
 package Model.Unit.Player;
 
+import View.Level;
 import Model.Helpers.Mana;
 import Model.Tile.EmptyTile;
 import Model.Unit.Enemy.Enemy;
-import Model.Unit.Visitor;
 import View.Turn;
-
-import java.util.List;
 
 public class Mage extends Player {
 
@@ -33,8 +31,49 @@ public class Mage extends Player {
     }
 
     @Override
-    public Turn OnAbilityCast(List<Enemy> enemies) {
-        return null;
+    public String OnLevelUp(){
+        String output = "";
+        output = super.OnLevelUp ();
+        output = output + "+" + 4*playerLevel +" Attack, ";
+        output = output + "+" + playerLevel + " Defense";
+        mana.SetManaPool ( mana.GetManaPool () + 25* playerLevel );
+        mana.SetCurrMana ( mana.GetManaPool ()/4 );
+        output = output + "\n                         +" + 25*playerLevel +" naximum mana, ";
+        spellPower += 10*playerLevel;
+        output = output + "+" + 10*playerLevel +" spell power";
+        return output;
+    }
+
+    @Override
+    public Turn OnAbilityCast(Level level) {
+        String output = "";
+        if(mana.GetCurrMana () < mana.GetManaCost ())
+            return new Turn ( "Can't use special ability when your current mana is lower then mana cost." );
+        output = output + name + " cast Blizzard.";
+        mana.AfterUsing ();
+        int hits = 0;
+        Enemy enemy = RandomEnemyInRange ( range, level.GetEnemies ());
+        if(enemy == null)
+        {
+            output = output + "\n No enemies in range.";
+            return new Turn(output);
+        }
+        while (hits < hitCount & enemy != null ){
+            int defense = enemy.Defense ();
+            output = output + enemy.GetName () + " rolled " + defense + " defense points.";
+            int damage = Damage ( defense,  spellPower);
+            output = output + "\n" + name + " hit " + enemy.GetName () + " for " + damage + " ability damage.";
+            enemy.AfterAttack ( damage );
+            if(!enemy.isAlive ()){
+                output = output + "\n" + enemy.GetName () + " died. " + name + " gained " + enemy.GetExperience () + " experience.";
+                output = output + UpdateExperience(enemy.GetExperience ());
+                level.GetBoard ().GetBoard ()[enemy.GetPosition ().y][enemy.GetPosition ().x] = new EmptyTile ( enemy.GetPosition ().y, enemy.GetPosition ().x);
+                enemy.SetPosition ( null );
+                level.GetEnemies ().remove ( enemy );
+                enemy = RandomEnemyInRange ( range, level.GetEnemies () );
+            }
+        }
+        return new Turn ( output);
     }
 
     @Override
@@ -69,16 +108,6 @@ public class Mage extends Player {
         String spellPowerString = "SpellPower: "+ spellPower;
         output += spellPowerString;
         return output;
-    }
-
-    @Override
-    public String Visit(Enemy visit) {
-        return null;
-    }
-
-    @Override
-    public String Visit(Player visit) {
-        return null;
     }
 
 }

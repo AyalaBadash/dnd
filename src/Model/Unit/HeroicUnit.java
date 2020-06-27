@@ -1,10 +1,8 @@
 package Model.Unit;
 
-import Model.Unit.Enemy.Enemy;
+import View.Level;
 import View.Turn;
 
-import java.util.List;
-
 public interface HeroicUnit {
-    public Turn OnAbilityCast(List<Enemy> enemies);
+    public Turn OnAbilityCast(Level level);
 }

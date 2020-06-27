@@ -15,13 +15,13 @@ public enum Minions {
     QueenCersei("QueenCersei", 'C',100,10,10,1,1000),
     NightsKing("NightsKing",'K',5000,300,150,8,5000);
 
-    String name;
-    char tile;
-    Health health;
-    int attack;
-    int defense;
-    int visionRange;
-    int experienceValue;
+    protected String name;
+    protected char tile;
+    protected Health health;
+    protected int attack;
+    protected int defense;
+    protected int visionRange;
+    protected int experienceValue;
 
     Minions(String name, char tile, int health, int attack, int defence, int visionRange, int experienceValue)
     {

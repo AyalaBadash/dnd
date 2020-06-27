@@ -1,15 +1,10 @@
 package Model.Unit.Player;
 
+import View.Level;
 import Model.Helpers.Cooldown;
 import Model.Tile.EmptyTile;
-import Model.Tile.Tile;
-import Model.Tile.Visited;
 import Model.Unit.Enemy.Enemy;
-import Model.Unit.Visitor;
 import View.Turn;
-
-import java.util.List;
-import java.util.Random;
 
 public class Warrior extends Player {
 
@@ -25,29 +20,42 @@ public class Warrior extends Player {
     }
 
     @Override
-    public void OnLevelUp(){
-        super.OnLevelUp ();
+    public String OnLevelUp(){
+        String output = "";
+        output = super.OnLevelUp ();
         cooldown.LevelUp ();
         health.SetHealthPool ( health.GetHealthPool () + 5*playerLevel );
         attackPoints += 2*playerLevel;
+        output = output + "+" + 6*playerLevel +" Attack, ";
         defensePoints += playerLevel;
+        output = output + "+" + 2*playerLevel + " Defense";
+        return output;
     }
 
     @Override
-    public Turn OnAbilityCast(List<Enemy> enemiesInLevel) {
-        if(cooldown.GetRemainingCooldown () > 0)
-            throw new IllegalStateException ( "You still need to cooldown...");
-        cooldown.AfterUsing ();
-        List<Enemy> enemies = super.FindEnemies(3,enemiesInLevel );
-        Random random = new Random ();
-        int randomEnemy = random.nextInt ( enemies.size () - 1);
-        Enemy enemy = enemies.get ( randomEnemy );
-        return null;
-    }
-
-    @Override
-    public String accept(Visitor visitor) {
-        return visitor.Visit ( this );
+    public Turn OnAbilityCast(Level level) {
+        if (cooldown.GetRemainingCooldown ( ) > 0)
+            return new Turn ( "You still need to cooldown..." );
+        String output = name + " used Avenger's Shield, ";
+        int healing = health.UpdateHealthAmount ( 10 * defensePoints );
+        output = output + "healing for " + healing;
+        cooldown.AfterUsing ( );
+        Enemy enemy = RandomEnemyInRange ( 3, level.GetEnemies ( ) );
+        if (enemy == null)
+            return new Turn ( output + "\nNo enemy in range." );
+        int defense = enemy.Defense ( );
+        output = output + "\n" + enemy.GetName ( ) + " rolled " + defense + " defense points.";
+        int damage = Damage ( defense, health.GetHealthPool ( ) / 10 );
+        output = output + "\n" + name + " hit " + enemy.GetName ( ) + " for " + damage + " ability damage.";
+        enemy.AfterAttack ( damage );
+        if (!enemy.isAlive ( )) {
+            output = output + "\n" + enemy.GetName ( ) + " died. " + name + " gained " + enemy.GetExperience ( ) + " experience.";
+            output = output + UpdateExperience ( enemy.GetExperience ( ) );
+            level.GetBoard ( ).GetBoard ( )[enemy.GetPosition ( ).y][enemy.GetPosition ( ).x] = new EmptyTile ( enemy.GetPosition ( ).y, enemy.GetPosition ( ).x );
+            enemy.SetPosition ( null );
+            level.GetEnemies ( ).remove ( enemy );
+        }
+        return new Turn(output);
     }
 
     @Override
@@ -83,21 +91,6 @@ public class Warrior extends Player {
         String cooldownString = "Cooldown: " + cooldown.GetRemainingCooldown () + "/" + cooldown.GetAbilityCooldown ();
         output += cooldownString;
         return output;
-    }
-
-    @Override
-    public String Visit(EmptyTile visit) {
-        return null;
-    }
-
-    @Override
-    public String Visit(Enemy visit) {
-        return null;
-    }
-
-    @Override
-    public String Visit(Player visit) {
-        return null;
     }
 
 }

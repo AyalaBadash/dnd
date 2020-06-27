@@ -1,7 +1,11 @@
 package Controller;
+
 import Model.Unit.Enemy.Enemy;
 import Model.Unit.Listener;
 import Model.Unit.Player.Player;
+import View.Level;
+import View.MessageHandler;
+import View.PlayersMenuChoice;
 import View.Turn;
 
 import java.util.ArrayList;
@@ -14,6 +18,7 @@ public class GameController implements observer {
      private Level currLevel;
      private Player player;
      private InputReciever inputReciever = new InputReciever ();
+     private MessageHandler printer = new MessageHandler();
 
     @java.lang.Override
     public void AddListener(Listener toAdd) {
@@ -29,24 +34,20 @@ public class GameController implements observer {
     }
 
     public void InitializeGame(String path){
+        PlayersMenuChoice menu = new PlayersMenuChoice ();
+        menu.Print ();
+        printer.Print ( "Choose a player." );
         char playerChoice = inputReciever.RecieveUserInput ();
         BoardCreator bc = new BoardCreator (playerChoice, path);
         levels = bc.ReadFromFolder ();
         player = bc.GetPlayer ();
         currLevel = levels.remove ( 0 );
+        player.SetPosition ( currLevel.getPlayerStartPosition () );
         List<Enemy> enemies = currLevel.GetEnemies ();
         AddListener ( player );
         for ( Enemy e: enemies ) {
             AddListener ( e );
         }
-    }
-
-    public boolean HasNextLevel(){
-        return !levels.isEmpty ();
-    }
-
-    public Level NextLevel(){
-        return levels.remove ( 0 );
     }
 
     public void Play(){
@@ -57,10 +58,8 @@ public class GameController implements observer {
             else
                 currLevel = null;
         }
-        if(!player.isAlive ())
-            System.out.println ("Game Over");
-        else
-            System.out.println ("You Win");
+        if(player.isAlive ())
+            printer.Print ("You Win");
     }
 
     public void LevelGame(){
@@ -69,33 +68,41 @@ public class GameController implements observer {
             Round ();
         }
         if(player.isAlive ())
-            System.out.println ("Level Ends");
+            printer.Print ("Level Ends");
     }
 
     public void Round(){
+        currLevel.Print ();
         PlayerMove ();
         for ( Enemy play : currLevel.GetEnemies () ) {
             EnemiesMove ( play );
         }
-        currLevel.GetBoard ().Print ();
         Notify ();
     }
 
     public void PlayerMove(){
         char move = inputReciever.RecieveUserInput ();
-        Turn turn;
-        if(move =='e')
-            turn = player.OnAbilityCast ( currLevel.GetEnemies () );
-        else if(move != 'q')
-            turn = player.OnPlayerTurn(move, currLevel.GetBoard ().GetBoard ());
-        else
-            turn = new Turn ( "" );
+        Turn turn = player.OnPlayerTurn (move, currLevel );
         turn.Print ();
     }
 
     public void EnemiesMove(Enemy play){
         Turn turn = play.OnEnemyTurn(currLevel.GetBoard ());
         turn.Print ();
+    }
+
+    public List<Level> getLevels() {
+        return levels;
+    }
+
+    public boolean HasNextLevel(){
+        return !levels.isEmpty ();
+    }
+
+    public Level NextLevel(){
+        Level next = levels.remove ( 0 );
+        player.SetPosition ( next.getPlayerStartPosition () );
+        return next;
     }
 
     public Level getCurrLevel() {

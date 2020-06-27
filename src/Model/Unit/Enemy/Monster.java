@@ -1,29 +1,21 @@
 package Model.Unit.Enemy;
-import Model.Helpers.Health;
-import Model.Tile.EmptyTile;
 import Model.Tile.Tile;
-import Model.Tile.Visited;
-import Model.Unit.Player.Player;
 import View.GameBoard;
 import View.Turn;
 
+import java.awt.*;
 import java.util.Random;
 
 public class Monster extends Enemy {
 
-    private char tile;
-    private Health health;
-    private int attack;
-    private int defense;
     private int visionRange;
 
     public Monster (int x, int y, Minions m){
         super(m.tile, x, y);
         name = m.name;
-        tile = m.tile;
         health = m.health;
-        attack = m.attack;
-        defense = m.defense;
+        attackPoints = m.attack;
+        defensePoints = m.defense;
         visionRange = m.visionRange;
         experienceValue = m.experienceValue;
     }
@@ -32,8 +24,10 @@ public class Monster extends Enemy {
 
     @Override
     public Turn OnEnemyTurn(GameBoard board) {
-        String output;
-        if(Range ( board.GetPlayer () ) < visionRange)
+        String output = "";
+        Tile[][] currBoard = board.GetBoard ();
+        Point lastPosition = new Point(position);
+        if(Range ( board.GetPlayer () ) <= visionRange)
         {
             int dx = position.x - board.GetPlayer ().GetPosition ().x;
             int dy = position.y - board.GetPlayer ().GetPosition ().y;
@@ -55,18 +49,30 @@ public class Monster extends Enemy {
     }
 
     private String MoveLeft(GameBoard board){
-        return board.GetBoard ()[position.x - 1][position.y].accept ( this );
+        Point lastPosition = new Point ( position );
+        String output =  board.GetBoard ()[position.x - 1][position.y].accept ( this );
+        FixBoard ( board.GetBoard (),lastPosition, board.GetBoard ()[position.x][position.y]);
+        return output;
     }
      private String MoveRight(GameBoard board){
-        return board.GetBoard ()[position.x + 1][position.y].accept ( this );
+         Point lastPosition = new Point ( position );
+         String output = board.GetBoard ()[position.x + 1][position.y].accept ( this );
+         FixBoard ( board.GetBoard (),lastPosition, board.GetBoard ()[position.x][position.y]);
+         return output;
     }
 
     private String MoveUp(GameBoard board){
-        return board.GetBoard ()[position.x ][position.y - 1].accept ( this );
+        Point lastPosition = new Point ( position );
+        String output =  board.GetBoard ()[position.x ][position.y - 1].accept ( this );
+        FixBoard ( board.GetBoard (),lastPosition, board.GetBoard ()[position.x][position.y]);
+        return output;
     }
 
     private String MoveDown(GameBoard board){
-        return board.GetBoard ()[position.x][position.y + 1].accept ( this );
+        Point lastPosition = new Point ( position );
+        String output = board.GetBoard ()[position.x][position.y + 1].accept ( this );
+        FixBoard ( board.GetBoard (),lastPosition, board.GetBoard ()[position.x][position.y]);
+        return output;
     }
 
     private String RandomMove(GameBoard board) {
@@ -84,6 +90,12 @@ public class Monster extends Enemy {
         }
     }
 
+    private void FixBoard(Tile[][] board, Point lastPosition, Tile moveTo){
+        if(!position.equals ( lastPosition )) {
+            board[lastPosition.x][lastPosition.y] = moveTo;
+            board[position.x][position.y] = this;
+        }
+    }
     @Override
     public String Describe(){
         String output = name;

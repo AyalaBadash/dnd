@@ -5,12 +5,15 @@ import Model.Tile.Tile;
 import Model.Tile.Wall;
 import Model.Unit.Enemy.Enemy;
 import Model.Unit.Player.Player;
+import Model.Unit.Player.Warrior;
 
 public interface Visitor {
 
-    String Visit(EmptyTile visit);
+    String Visit(EmptyTile visited);
 
-    String Visit(Enemy visit);
+    String Visit(Enemy visited);
 
-    String Visit(Player visit);
+    String Visit(Player visited);
+
+    String Visit(Wall visited);
 }

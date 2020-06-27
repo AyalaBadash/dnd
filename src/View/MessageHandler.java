@@ -1,9 +1,8 @@
 package View;
 
-public class MessageHandler implements Printer{
+public class MessageHandler{
 
-    @Override
-    public void Print() {
-
+    public void Print(String message) {
+        System.out.println (message );
     }
 }

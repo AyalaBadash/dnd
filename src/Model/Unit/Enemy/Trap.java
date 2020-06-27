@@ -2,28 +2,20 @@ package Model.Unit.Enemy;
 
 import Model.Helpers.Health;
 import Model.Helpers.Visibility;
-import Model.Tile.EmptyTile;
 import Model.Tile.Tile;
-import Model.Tile.Visited;
-import Model.Unit.Player.Player;
 import View.GameBoard;
 import View.Turn;
 
 public class Trap extends Enemy {
 
-    protected char tile;
-    protected Health health;
-    private int attack;
-    protected int defense;
     protected Visibility visibility;
 
     public Trap(int x, int y, Traps t) {
         super ( t.tile, x, y );
         name = t.name;
-        tile = t.tile;
         health = t.health;
-        attack = t.attack;
-        defense = t.defense;
+        attackPoints = t.attack;
+        defensePoints = t.defense;
         experienceValue = t.experienceValue;
         visibility = new Visibility ( t.visibilityTime, t.invisibilityTime );
     }
@@ -58,6 +50,7 @@ public class Trap extends Enemy {
 
     @Override
     public Turn OnEnemyTurn(GameBoard board) {
+        Tile[][] currBoard = board.GetBoard ();
         String output = "";
         if(Range( board.GetPlayer () )<=2)
         {

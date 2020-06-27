@@ -2,11 +2,12 @@ package View;
 
 import Model.Unit.Player.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PlayersMenuChoice implements Printer {
 
-    List<Player> playersToChoose;
+    List<Player> playersToChoose = new ArrayList<> ();
 
     public PlayersMenuChoice(){
 
