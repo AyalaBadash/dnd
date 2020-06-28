@@ -4,11 +4,13 @@ public class Mana {
     private int manaPool;
     private int manaCost;
     private int currMana;
+    private boolean isUsedLastTurn;
 
     public Mana(int manaPool, int manaCost) {
         this.manaPool = manaPool;
         this.manaCost = manaCost;
         currMana = manaPool / 4;
+        isUsedLastTurn = false;
     }
 
     public int GetManaPool() {
@@ -32,12 +34,18 @@ public class Mana {
     }
 
     public void SetCurrMana(int currMana) {
-        this.currMana = Math.min (currMana, manaPool) ;
+        this.currMana = Math.min ( currMana, manaPool );
     }
 
-    public void AfterUsing(){currMana = currMana - manaCost; }
+    public void AfterUsing() {
+        isUsedLastTurn = true;
+        currMana = currMana - manaCost;
+    }
 
     public void OnGameTick(int level) {
-        SetCurrMana ( currMana + level );
+        if (isUsedLastTurn)
+            isUsedLastTurn = false;
+        else
+            SetCurrMana ( currMana + level );
     }
 }

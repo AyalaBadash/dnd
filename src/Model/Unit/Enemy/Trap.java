@@ -1,9 +1,8 @@
 package Model.Unit.Enemy;
 
-import Model.Helpers.Health;
 import Model.Helpers.Visibility;
 import Model.Tile.Tile;
-import View.GameBoard;
+import View.Level;
 import View.Turn;
 
 public class Trap extends Enemy {
@@ -49,12 +48,12 @@ public class Trap extends Enemy {
 
 
     @Override
-    public Turn OnEnemyTurn(GameBoard board) {
-        Tile[][] currBoard = board.GetBoard ();
+    public Turn OnEnemyTurn(Level level) {
+        Tile[][] currBoard = level.GetBoard ().GetBoard ();
         String output = "";
-        if(Range( board.GetPlayer () )<=2)
+        if(Range( level.getCurrPlayer () )< 2)
         {
-            output = board.GetPlayer ().accept ( this );
+            output = level.getCurrPlayer ().accept ( this );
         }
         return new Turn ( output );
     }

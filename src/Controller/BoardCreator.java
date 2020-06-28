@@ -24,6 +24,7 @@ public class BoardCreator {
         this.path = path;
     }
 
+    //returns list of Levels
     public List<Level> ReadFromFolder(){
         List<Level> levels = new ArrayList<> ();
         File folder = new File ( path );
@@ -34,6 +35,7 @@ public class BoardCreator {
         return levels;
     }
 
+    //translate each level at a time
     public Level Translate(String levelToRead) {
         List<String> levelLines = new ArrayList<> ( );
         try {

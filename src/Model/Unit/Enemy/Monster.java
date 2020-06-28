@@ -1,6 +1,8 @@
 package Model.Unit.Enemy;
+import Model.Helpers.Health;
 import Model.Tile.Tile;
 import View.GameBoard;
+import View.Level;
 import View.Turn;
 
 import java.awt.*;
@@ -13,7 +15,7 @@ public class Monster extends Enemy {
     public Monster (int x, int y, Minions m){
         super(m.tile, x, y);
         name = m.name;
-        health = m.health;
+        health = new Health ( m.health.GetHealthPool () );
         attackPoints = m.attack;
         defensePoints = m.defense;
         visionRange = m.visionRange;
@@ -23,27 +25,27 @@ public class Monster extends Enemy {
     public void OnGameTick() {}
 
     @Override
-    public Turn OnEnemyTurn(GameBoard board) {
+    public Turn OnEnemyTurn(Level level) {
         String output = "";
-        Tile[][] currBoard = board.GetBoard ();
+        Tile[][] currBoard = level.GetBoard ().GetBoard ();
         Point lastPosition = new Point(position);
-        if(Range ( board.GetPlayer () ) <= visionRange)
+        if(Range ( level.getCurrPlayer () ) <= visionRange)
         {
-            int dx = position.x - board.GetPlayer ().GetPosition ().x;
-            int dy = position.y - board.GetPlayer ().GetPosition ().y;
+            int dx = position.x - level.getCurrPlayer ().GetPosition ().x;
+            int dy = position.y - level.getCurrPlayer ().GetPosition ().y;
             if(Math.abs ( dx ) > Math.abs ( dy ))
                 if(dx > 0)
-                    output = MoveLeft ( board);
+                    output = MoveLeft ( level.GetBoard ());
                 else
-                    output = MoveRight ( board );
+                    output = MoveRight ( level.GetBoard () );
             else
                 if (dy > 0)
-                    output = MoveUp ( board );
+                    output = MoveUp ( level.GetBoard () );
                 else
-                    output = MoveDown ( board );
+                    output = MoveDown ( level.GetBoard () );
         }
         else
-            output = RandomMove (board);
+            output = RandomMove (level.GetBoard ());
         Turn turn = new Turn (output);
         return turn;
     }

@@ -3,11 +3,11 @@ package Model.Helpers;
 public class Cooldown {
     private int abilityCooldown;
     private int remainingCooldown;
+    private boolean usedLastTurn;
 
     public Cooldown(int abilityCooldown) {
-        if (abilityCooldown < 0)
-            throw new IllegalArgumentException("Ability Cooldown is negative");
         this.abilityCooldown = abilityCooldown;
+        usedLastTurn = false;
     }
 
     public void SetRemainingCooldown(int remainingCooldown) {
@@ -27,12 +27,16 @@ public class Cooldown {
     }
 
 
-    public void AfterTick() {
-        if (remainingCooldown > 0) remainingCooldown--;
+    public void OnGameTick() {
+        if(usedLastTurn)
+            usedLastTurn = false;
+        else if (remainingCooldown > 0)
+            remainingCooldown--;
     }
 
     public void AfterUsing() {
         remainingCooldown = abilityCooldown;
+        usedLastTurn = true;
     }
 
     public void LevelUp() {

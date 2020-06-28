@@ -4,6 +4,7 @@ import Model.Unit.Player.Player;
 import Model.Unit.Unit;
 import Model.Unit.Visitor;
 import View.GameBoard;
+import View.Level;
 import View.Turn;
 
 import java.util.Random;
@@ -48,10 +49,12 @@ public abstract class Enemy extends Unit {
         return output;
     }
 
-    public void Dead(){isAlive = false;}
+    public void Dead(){
+        isAlive = false;
+    }
 
     @Override
     public abstract void OnGameTick();
 
-    public abstract Turn OnEnemyTurn(GameBoard board);
+    public abstract Turn OnEnemyTurn(Level level);
 }

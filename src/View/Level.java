@@ -29,6 +29,7 @@ public class Level implements Printer{
         board = new GameBoard ();
     }
 
+    //creates the board from the string's list from the file
     public Player CreateBoardToLevel(List<String> toCreate){
         int width = toCreate.size ();
         int length = toCreate.get (0).length ();
@@ -54,25 +55,12 @@ public class Level implements Printer{
             }
         }
         board.SetBoard(table);
-        board.SetPlayer ( currPlayer );
         return currPlayer;
     }
 
-    public GameBoard GetBoard(){return board;}
-    public List<Enemy> GetEnemies(){return enemies;}
-
+    //checks each round if the level needs to over
     public boolean isStillOn() {
         return currPlayer.isAlive ( ) & enemies.size ( ) > 0;
-    }
-
-    public void RemoveEnemy() {
-        for ( Enemy enemy:enemies ) {
-            if(enemy.GetPosition () == null) {
-                enemies.remove (  enemy );
-                break;
-            }
-        }
-
     }
 
     @Override
@@ -84,4 +72,12 @@ public class Level implements Printer{
     public Point getPlayerStartPosition() {
         return playerStartPosition;
     }
+
+    public Player getCurrPlayer() {
+        return currPlayer;
+    }
+
+    public GameBoard GetBoard(){return board;}
+
+    public List<Enemy> GetEnemies(){return enemies;}
 }

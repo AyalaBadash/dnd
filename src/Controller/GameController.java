@@ -33,6 +33,7 @@ public class GameController implements observer {
         }
     }
 
+    //initialize the game - create the levels and get the user choice of a player
     public void InitializeGame(String path){
         PlayersMenuChoice menu = new PlayersMenuChoice ();
         menu.Print ();
@@ -50,6 +51,7 @@ public class GameController implements observer {
         }
     }
 
+    //run the game
     public void Play(){
         while ((currLevel != null) && player.isAlive ()){
             LevelGame ();
@@ -59,26 +61,39 @@ public class GameController implements observer {
                 currLevel = null;
         }
         if(player.isAlive ())
-            printer.Print ("You Win");
+            printer.Print ("You Won!");
     }
 
+    //run each level at a time
     public void LevelGame(){
-        while (!currLevel.GetEnemies ().isEmpty() && player.isAlive ())
+        while (currLevel.isStillOn ())
         {
             Round ();
         }
-        if(player.isAlive ())
-            printer.Print ("Level Ends");
     }
 
+    //run each round at a time - player's move and than each enemy's move
     public void Round(){
         currLevel.Print ();
         PlayerMove ();
+        Enemy isDead= null;
         for ( Enemy play : currLevel.GetEnemies () ) {
-            EnemiesMove ( play );
+            if(!play.isAlive ())
+                isDead = play;
+            else {
+                EnemiesMove ( play );
+                if (!player.isAlive ( )) {
+                    currLevel.Print ( );
+                    printer.Print ( "Game Over." );
+                    break;
+                }
+            }
         }
+        if (isDead != null)
+            currLevel.GetEnemies ().remove ( isDead );
         Notify ();
     }
+
 
     public void PlayerMove(){
         char move = inputReciever.RecieveUserInput ();
@@ -87,18 +102,15 @@ public class GameController implements observer {
     }
 
     public void EnemiesMove(Enemy play){
-        Turn turn = play.OnEnemyTurn(currLevel.GetBoard ());
+        Turn turn = play.OnEnemyTurn(currLevel);
         turn.Print ();
-    }
-
-    public List<Level> getLevels() {
-        return levels;
     }
 
     public boolean HasNextLevel(){
         return !levels.isEmpty ();
     }
 
+    //update the next level and the start player's position
     public Level NextLevel(){
         Level next = levels.remove ( 0 );
         player.SetPosition ( next.getPlayerStartPosition () );
@@ -107,5 +119,9 @@ public class GameController implements observer {
 
     public Level getCurrLevel() {
         return currLevel;
+    }
+
+    public List<Level> getLevels() {
+        return levels;
     }
 }

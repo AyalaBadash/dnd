@@ -6,10 +6,11 @@ public class InputReciever {
 
     boolean isStart = true;
 
+    //for playe's choice and move's choice
     public char RecieveUserInput(){
         Scanner scanner = new Scanner ( System.in );
         String input = scanner.nextLine ();
-        boolean isValid = CheckValidity ( input.charAt ( 0 ) );
+        boolean isValid = input.length ()>0 && CheckValidity ( input.charAt ( 0 ) );
         while (!isValid)
         {
             input = scanner.nextLine ();

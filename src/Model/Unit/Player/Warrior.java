@@ -51,16 +51,15 @@ public class Warrior extends Player {
         if (!enemy.isAlive ( )) {
             output = output + "\n" + enemy.GetName ( ) + " died. " + name + " gained " + enemy.GetExperience ( ) + " experience.";
             output = output + UpdateExperience ( enemy.GetExperience ( ) );
-            level.GetBoard ( ).GetBoard ( )[enemy.GetPosition ( ).y][enemy.GetPosition ( ).x] = new EmptyTile ( enemy.GetPosition ( ).y, enemy.GetPosition ( ).x );
+            level.GetBoard ( ).GetBoard ( )[enemy.GetPosition ( ).x][enemy.GetPosition ( ).y] = new EmptyTile ( enemy.GetPosition ( ).x, enemy.GetPosition ( ).y );
             enemy.SetPosition ( null );
-            level.GetEnemies ( ).remove ( enemy );
         }
         return new Turn(output);
     }
 
     @Override
     public void OnGameTick() {
-        cooldown.AfterTick ();
+        cooldown.OnGameTick ();
     }
 
     @Override
@@ -84,7 +83,7 @@ public class Warrior extends Player {
         output += levelString;
         for(int i = levelString.length (); i <= 25; i++)
             output += " ";
-        String experienceString = "Experience: "+ experience + "/" + "50";
+        String experienceString = "Experience: "+ experience + "/" + playerLevel*50;
         output += experienceString;
         for(int i = experienceString.length (); i <= 25; i++)
             output += " ";

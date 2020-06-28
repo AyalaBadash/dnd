@@ -21,28 +21,10 @@ public class PlayersMenuChoice implements Printer {
     }
     @Override
     public void Print() {
+        int counter = 1;
         for ( Player toPrint:playersToChoose ) {
-            System.out.println (toPrint.Describe ());
+            System.out.println ("" +". " + counter + toPrint.Describe ());
+            counter ++;
         }
-    }
-
-    public String PlayersCohice(char choice){
-        String name;
-        if(choice =='1')
-            name = "JonSnow";
-        else if (choice == '2')
-            name = "TheHound";
-        else if(choice=='3')
-            name = "Melisandre";
-        else if(choice == '4')
-            name = "ThorosOfMyr";
-        else if(choice == '5')
-            name = "AryaStark";
-        else if(choice == '6')
-            name = "Bronn";
-        else
-            name = "Ygritte";
-        System.out.println ("You Choose " + name );
-        return name;
     }
 }

@@ -60,14 +60,14 @@ public class Mage extends Player {
         }
         while (hits < hitCount & enemy != null ){
             int defense = enemy.Defense ();
-            output = output + enemy.GetName () + " rolled " + defense + " defense points.";
+            output = output + "\n" + enemy.GetName () + " rolled " + defense + " defense points.";
             int damage = Damage ( defense,  spellPower);
             output = output + "\n" + name + " hit " + enemy.GetName () + " for " + damage + " ability damage.";
             enemy.AfterAttack ( damage );
             if(!enemy.isAlive ()){
                 output = output + "\n" + enemy.GetName () + " died. " + name + " gained " + enemy.GetExperience () + " experience.";
                 output = output + UpdateExperience(enemy.GetExperience ());
-                level.GetBoard ().GetBoard ()[enemy.GetPosition ().y][enemy.GetPosition ().x] = new EmptyTile ( enemy.GetPosition ().y, enemy.GetPosition ().x);
+                level.GetBoard ().GetBoard ()[enemy.GetPosition ().x][enemy.GetPosition ().y] = new EmptyTile ( enemy.GetPosition ().x, enemy.GetPosition ().y);
                 enemy.SetPosition ( null );
                 level.GetEnemies ().remove ( enemy );
                 enemy = RandomEnemyInRange ( range, level.GetEnemies () );
@@ -97,7 +97,7 @@ public class Mage extends Player {
         output += levelString;
         for(int i = levelString.length (); i <= 25; i++)
             output += " ";
-        String experienceString = "Experience: "+ experience + "/" + "50";
+        String experienceString = "Experience: "+ experience + "/" + playerLevel*50;
         output += experienceString;
         for(int i = experienceString.length (); i <= 25; i++)
             output += " ";

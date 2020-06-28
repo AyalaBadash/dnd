@@ -22,13 +22,14 @@ public abstract class Player extends Unit implements HeroicUnit {
 
     public Player(char tile, int x, int y) {
         super ( tile, x, y );
+        playerLevel = 1;
     }
 
     public String OnLevelUp(){
         String output= "\n";
-        playerLevel += 1;
-        output = output + name + " reached level " + playerLevel + ": ";
+        output = output + name + " reached level " + (playerLevel+1) + ": ";
         experience -= 50 * playerLevel;
+        playerLevel += 1;
         health.SetHealthPool(health.GetHealthPool() + 10 * playerLevel);
         output = output + "+" + 10*playerLevel + " Health, ";
         health.SetHealthAmount(health.GetHealthPool());
@@ -67,9 +68,7 @@ public abstract class Player extends Unit implements HeroicUnit {
                 currBoard[lastPosition.x][lastPosition.y] = step;
             }
             if (step.GetPosition ( ) == null) {
-                currBoard[position.x][position.y] = this;
                 currBoard[lastPosition.x][lastPosition.y] = new EmptyTile ( lastPosition.x, lastPosition.y );
-                level.RemoveEnemy();
             }
             return turn;
         }
@@ -103,9 +102,10 @@ public abstract class Player extends Unit implements HeroicUnit {
         visited.AfterAttack(damage);
         if(!visited.isAlive())
         {
-            output = output + visited.GetName () + " died. " + name + " gained " + visited.GetExperience () + " experience.";
+            output = output +"\n" + visited.GetName () + " died. " + name + " gained " + visited.GetExperience () + " experience.";
             output = output + UpdateExperience ( visited.GetExperience () ) ;
-            Point temp = visited.GetPosition ();
+            Point temp = new Point ( visited.GetPosition () );
+            visited.Dead ();
             visited.SetPosition ( null );
             position = new Point ( temp );
         }
@@ -117,6 +117,8 @@ public abstract class Player extends Unit implements HeroicUnit {
         List<Enemy> enemiesInRange = FindEnemies ( range, enemies );
         if(enemiesInRange.size () == 0)
             return enemy;
+        if(enemiesInRange.size () == 1)
+            return enemiesInRange.get ( 0 );
         Random random = new Random ();
         int randomEnemy = random.nextInt ( enemiesInRange.size () - 1);
         enemy = enemiesInRange.get ( randomEnemy );
@@ -125,11 +127,12 @@ public abstract class Player extends Unit implements HeroicUnit {
 
     public String UpdateExperience(int add){
         experience = experience + add;
-        if(experience >= playerLevel * 50)
+        String output = "";
+        while (experience >= playerLevel * 50)
         {
-            return  OnLevelUp ();
+            output = output + OnLevelUp ();
         }
-        else return "";
+        return output;
     }
 
     public String Visit(Player visited){

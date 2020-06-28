@@ -39,22 +39,26 @@ public abstract class Unit extends Tile implements Visitor, Visited, Listener {
         return "";
     }
 
+    //switch the position between 2 tiles
     public void Switch(Tile toSwitch){
         Point temp = toSwitch.GetPosition ();
         toSwitch.SetPosition (new Point ( this.position ));
         this.position = temp;
     }
 
+    //random attack points
     public int Attack(){
         Random random = new Random (  );
         return random.nextInt ( attackPoints );
     }
 
+    //random defense points
     public int Defense(){
         Random random = new Random (  );
         return random.nextInt ( defensePoints );
     }
 
+    //calculating the damage
     public int Damage(int defensePoints, int attackPoints){
         return Math.max (attackPoints - defensePoints, 0);
     }
@@ -62,7 +66,7 @@ public abstract class Unit extends Tile implements Visitor, Visited, Listener {
     public void AfterAttack(int damage){
         health.SetHealthAmount ( health.GetHealthAmount () - damage );
         if(health.GetHealthAmount () <= 0)
-            Dead();
+            Dead ();
     }
 
     protected abstract void Dead();

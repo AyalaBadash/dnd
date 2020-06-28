@@ -31,7 +31,7 @@ public class Rogue extends Player{
     @Override
     public String OnLevelUp(){
         String output = super.OnLevelUp ();
-        energy.OnLevelUp ();
+        energy.LevelUp ();
         attackPoints += 3*playerLevel;
         output = output + "+" + 7*playerLevel +" Attack, ";
         output = output + "+" + playerLevel + " Defense";
@@ -43,6 +43,7 @@ public class Rogue extends Player{
         if(energy.GetCurrEnergy () < cost)
             return new Turn ( "You don't have enough energy yet." );
         String output = name + " cast Fan of Knives.";
+        energy.AfterUsing (cost);
         List<Enemy> enemiesInRange = FindEnemies ( 2, level.GetEnemies () );
         if(enemiesInRange.size () == 0)
             return new Turn(output + "\nNo enemies in range.");
@@ -55,9 +56,8 @@ public class Rogue extends Player{
             if (!enemy.isAlive ( )) {
                 output = output + "\n" + enemy.GetName ( ) + " died. " + name + " gained " + enemy.GetExperience ( ) + " experience.";
                 output = output + UpdateExperience ( enemy.GetExperience ( ) );
-                level.GetBoard ( ).GetBoard ( )[enemy.GetPosition ( ).y][enemy.GetPosition ( ).x] = new EmptyTile ( enemy.GetPosition ( ).y, enemy.GetPosition ( ).x );
+                level.GetBoard ( ).GetBoard ( )[enemy.GetPosition ( ).x][enemy.GetPosition ( ).y] = new EmptyTile ( enemy.GetPosition ( ).x, enemy.GetPosition ( ).y );
                 enemy.SetPosition ( null );
-                level.GetEnemies ( ).remove ( enemy );
             }
         }
         return new Turn ( output );
@@ -84,7 +84,7 @@ public class Rogue extends Player{
         output += levelString;
         for(int i = levelString.length (); i <= 25; i++)
             output += " ";
-        String experienceString = "Experience: "+ experience + "/" + "50";
+        String experienceString = "Experience: "+ experience + "/" + playerLevel*50;
         output += experienceString;
         for(int i = experienceString.length (); i <= 25; i++)
             output += " ";
