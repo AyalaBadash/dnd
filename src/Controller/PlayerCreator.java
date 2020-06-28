@@ -20,6 +20,8 @@ public class PlayerCreator implements Creator {
             return new Rogue ( x,y,Rogues.AryaStark );
         else if(toCreate == '6')
             return new Rogue ( x,y,Rogues.Bronn );
+        else if (toCreate == '7')
+            return new Hunter ( x,y,Hunters.Ygritte );
         return null;
     }
 }

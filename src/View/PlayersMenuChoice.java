@@ -17,13 +17,14 @@ public class PlayersMenuChoice implements Printer {
         playersToChoose.add ( new Mage ( 0, 0, Mages.ThorosOfMyr ) );
         playersToChoose.add ( new Rogue ( 0, 0, Rogues.AryaStark ) );
         playersToChoose.add ( new Rogue ( 0, 0, Rogues.Bronn ) );
+        playersToChoose.add ( new Hunter(0,0, Hunters.Ygritte) );
 
     }
     @Override
     public void Print() {
         int counter = 1;
         for ( Player toPrint:playersToChoose ) {
-            System.out.println ("" +". " + counter + toPrint.Describe ());
+            System.out.println ("" + counter +". " + toPrint.Describe ());
             counter ++;
         }
     }

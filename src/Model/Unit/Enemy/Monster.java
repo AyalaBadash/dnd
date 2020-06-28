@@ -10,16 +10,10 @@ import java.util.Random;
 
 public class Monster extends Enemy {
 
-    private int visionRange;
+    protected int visionRange;
 
-    public Monster (int x, int y, Minions m){
-        super(m.tile, x, y);
-        name = m.name;
-        health = new Health ( m.health.GetHealthPool () );
-        attackPoints = m.attack;
-        defensePoints = m.defense;
-        visionRange = m.visionRange;
-        experienceValue = m.experienceValue;
+    public Monster (char tile, int x, int y){
+        super(tile, x, y);
     }
     @Override
     public void OnGameTick() {}
@@ -29,7 +23,7 @@ public class Monster extends Enemy {
         String output = "";
         Tile[][] currBoard = level.GetBoard ().GetBoard ();
         Point lastPosition = new Point(position);
-        if(Range ( level.getCurrPlayer () ) <= visionRange)
+        if(Range ( level.getCurrPlayer () ) < visionRange)
         {
             int dx = position.x - level.getCurrPlayer ().GetPosition ().x;
             int dy = position.y - level.getCurrPlayer ().GetPosition ().y;
@@ -77,7 +71,7 @@ public class Monster extends Enemy {
         return output;
     }
 
-    private String RandomMove(GameBoard board) {
+    protected String RandomMove(GameBoard board) {
         Random random = new Random ( );
         int movement = random.nextInt ( 3 );
         switch (movement) {
@@ -100,25 +94,7 @@ public class Monster extends Enemy {
     }
     @Override
     public String Describe(){
-        String output = name;
-        for(int i = name.length (); i <= 25; i++)
-            output += " ";
-        String healthString = "Health: " + health.GetHealthAmount ()+"/" + health.GetHealthPool ();
-        output += healthString;
-        for(int i = healthString.length (); i <= 25; i++)
-            output += " ";
-        String attackString = "Attack: "+ attackPoints;
-        output += attackString;
-        for(int i = attackString.length (); i <= 25; i++)
-            output += " ";
-        String defenseString = "Defense: "+ defensePoints;
-        output += defenseString;
-        for(int i = defenseString.length (); i <= 25; i++)
-            output += " ";
-        String experienceString = "Experience: "+ experienceValue;
-        output += experienceString;
-        for(int i = experienceString.length (); i <= 25; i++)
-            output += " ";
+        String output = super.Describe ();
         String visionRangeString = "Vision Range: "+ visionRange;
         output += visionRangeString;
         return output;

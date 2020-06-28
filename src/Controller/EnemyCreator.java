@@ -8,25 +8,25 @@ public class EnemyCreator implements Creator {
     @Override
     public Tile Create(char toCreate, int x, int y) {
         if(toCreate == 's')
-            return new Monster (x,y, Minions.LannisterSoldier ) ;
+            return new Minion (x,y, Minions.LannisterSoldier ) ;
         if(toCreate == 'k')
-            return new Monster ( x,y,Minions.LannisterKnight );
+            return new Minion ( x,y,Minions.LannisterKnight );
         if(toCreate == 'q')
-            return new Monster ( x,y,Minions.QueensGuard );
+            return new Minion ( x,y,Minions.QueensGuard );
         if(toCreate == 'z')
-            return new Monster ( x,y,Minions.Wright );
+            return new Minion ( x,y,Minions.Wright );
         if(toCreate == 'b')
-            return new Monster ( x,y,Minions.BearWright );
+            return new Minion ( x,y,Minions.BearWright );
         if(toCreate == 'g')
-            return new Monster ( x,y,Minions.GiantWright );
+            return new Minion ( x,y,Minions.GiantWright );
         if(toCreate == 'w')
-            return new Monster ( x,y,Minions.WhiteWalker );
+            return new Minion ( x,y,Minions.WhiteWalker );
         if(toCreate == 'M')
-            return new Monster ( x,y,Minions.TheMountain );
+            return new Boss ( x,y,Bosses.TheMountain );
         if(toCreate == 'C')
-            return new Monster ( x,y,Minions.QueenCersei );
+            return new Boss ( x,y,Bosses.QueenCersei );
         if(toCreate == 'K')
-            return new Monster ( x,y,Minions.NightsKing );
+            return new Boss ( x,y,Bosses.NightsKing );
         if(toCreate == 'B')
             return new Trap ( x,y, Traps.BonusTrap );
         if(toCreate == 'Q')

@@ -21,23 +21,7 @@ public class Trap extends Enemy {
 
     @Override
     public String Describe() {
-        String output = name;
-        for ( int i = name.length ( ) ; i <= 25 ; i++ )
-            output += " ";
-        String healthString = "Health: " + health.GetHealthAmount ( ) + "/" + health.GetHealthPool ( );
-        output += healthString;
-        for ( int i = healthString.length ( ) ; i <= 25 ; i++ )
-            output += " ";
-        String attackString = "Attack: " + attackPoints;
-        output += attackString;
-        for ( int i = attackString.length ( ) ; i <= 25 ; i++ )
-            output += " ";
-        String defenseString = "Defense: " + defensePoints;
-        output += defenseString;
-        for ( int i = defenseString.length ( ) ; i <= 25 ; i++ )
-            output += " ";
-        String experienceString = "Experience: " + experienceValue;
-        output += experienceString;
+        String output = super.Describe ();
         return output;
     }
 

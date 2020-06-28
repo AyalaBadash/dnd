@@ -59,6 +59,7 @@ public class Mage extends Player {
             return new Turn(output);
         }
         while (hits < hitCount & enemy != null ){
+            hits ++;
             int defense = enemy.Defense ();
             output = output + "\n" + enemy.GetName () + " rolled " + defense + " defense points.";
             int damage = Damage ( defense,  spellPower);
@@ -78,29 +79,7 @@ public class Mage extends Player {
 
     @Override
     public String Describe() {
-        String output = name;
-        for(int i = name.length (); i <= 25; i++)
-            output += " ";
-        String healthString = "Health: " + health.GetHealthAmount ()+"/" + health.GetHealthPool ();
-        output += healthString;
-        for(int i = healthString.length (); i <= 25; i++)
-            output += " ";
-        String attackString = "Attack: "+ attackPoints;
-        output += attackString;
-        for(int i = attackString.length (); i <= 25; i++)
-            output += " ";
-        String defenseString = "Defense: "+ defensePoints;
-        output += defenseString;
-        for(int i = defenseString.length (); i <= 25; i++)
-            output += " ";
-        String levelString = "Level: "+ playerLevel;
-        output += levelString;
-        for(int i = levelString.length (); i <= 25; i++)
-            output += " ";
-        String experienceString = "Experience: "+ experience + "/" + playerLevel*50;
-        output += experienceString;
-        for(int i = experienceString.length (); i <= 25; i++)
-            output += " ";
+        String output = super.Describe ();
         String manaString = "Mana: " + mana.GetCurrMana ()+"/"+mana.GetManaPool ();
         output += manaString;
         for(int i = manaString.length (); i <= 25; i++)

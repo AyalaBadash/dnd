@@ -114,6 +114,9 @@ public class GameController implements observer {
     public Level NextLevel(){
         Level next = levels.remove ( 0 );
         player.SetPosition ( next.getPlayerStartPosition () );
+        for ( Enemy e:next.GetEnemies () ) {
+            listeners.add ( e );
+        }
         return next;
     }
 
