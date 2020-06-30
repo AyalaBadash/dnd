@@ -4,7 +4,7 @@ import Model.Helpers.Health;
 
 public enum Rogues {
 
-    AryaStark("AryaStark", new Health ( 150 ), 40,2,20),
+    AryaStark("Arya Stark", new Health ( 150 ), 40,2,20),
     Bronn("Bronn", new Health ( 250 ), 35, 3, 50);
 
     String name;

@@ -3,9 +3,9 @@ package Model.Unit.Enemy;
 import Model.Helpers.Health;
 
 public enum Bosses {
-    TheMountain("TheMountain",'M',1000,60,25,6,500, 7),
-    QueenCersei("QueenCersei", 'C',100,10,10,1,1000, 5),
-    NightsKing("NightsKing",'K',5000,300,150,8,5000, 10);
+    TheMountain("The Mountain",'M',1000,60,25,6,500, 7),
+    QueenCersei("Queen Cersei", 'C',100,10,10,1,1000, 5),
+    NightsKing("Nights King",'K',5000,300,150,8,5000, 10);
 
     protected String name;
     protected char tile;

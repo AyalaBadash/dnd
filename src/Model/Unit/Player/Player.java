@@ -76,7 +76,7 @@ public abstract class Player extends Unit implements HeroicUnit {
     }
 
 
-    protected List<Enemy> FindEnemies(int range, List<Enemy> enemies) {
+    public List<Enemy> FindEnemies(int range, List<Enemy> enemies) {
         List<Enemy> closeEnemies = new ArrayList<> ();
         for ( Enemy e:enemies) {
             if(e.Range ( this ) < range)
@@ -170,6 +170,14 @@ public abstract class Player extends Unit implements HeroicUnit {
         for(int i = experienceString.length (); i <= 25; i++)
             output += " ";
         return output;
+    }
+
+    public int getExperience() {
+        return experience;
+    }
+
+    public int getPlayerLevel() {
+        return playerLevel;
     }
 
     @Override

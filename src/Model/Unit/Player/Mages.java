@@ -6,7 +6,7 @@ import Model.Helpers.Mana;
 public enum Mages {
 
     Melisandre("Melisandre",new Health(100),5,1, new Mana ( 300, 30 ), 15, 5, 6 ),
-    ThorosOfMyr("ThorosOfMyr", new Health ( 250 ), 25, 4, new Mana ( 150, 20 ), 20,3,4);
+    ThorosOfMyr("Thoros Of Myr", new Health ( 250 ), 25, 4, new Mana ( 150, 20 ), 20,3,4);
 
     String name;
     char tile = '@';

@@ -25,6 +25,7 @@ public class Warrior extends Player {
         output = super.OnLevelUp ();
         cooldown.LevelUp ();
         health.SetHealthPool ( health.GetHealthPool () + 5*playerLevel );
+        health.SetHealthAmount ( health.GetHealthPool () );
         attackPoints += 2*playerLevel;
         output = output + "+" + 6*playerLevel +" Attack, ";
         defensePoints += playerLevel;
@@ -70,4 +71,7 @@ public class Warrior extends Player {
         return output;
     }
 
+    public Cooldown getCooldown() {
+        return cooldown;
+    }
 }

@@ -51,4 +51,7 @@ public class Trap extends Enemy {
             return ".";
     }
 
+    public Visibility getVisibility() {
+        return visibility;
+    }
 }

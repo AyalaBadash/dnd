@@ -5,8 +5,8 @@ import Model.Helpers.Health;
 
 public enum Warriors {
 
-    JonSnow("JonSnow", new Health (300), 30, 4, new Cooldown ( 3 ) ),
-    TheHound("TheHound", new Health ( 400 ), 20,6,new Cooldown ( 5 ));
+    JonSnow("Jon Snow", new Health (300), 30, 4, new Cooldown ( 3 ) ),
+    TheHound("The Hound", new Health ( 400 ), 20,6,new Cooldown ( 5 ));
 
     String name;
     char tile = '@';

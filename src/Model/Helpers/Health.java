@@ -11,8 +11,8 @@ public class Health {
 
     public void SetHealthPool(int healthPool){this.healthPool = healthPool;}
     public void SetHealthAmount(int healthAmount){
-        if (healthAmount < 0)
-            healthAmount = 0;
+        if (healthAmount <= 0)
+            this.healthAmount = 0;
         else
             this.healthAmount = Math.min (healthAmount, healthPool);
     }

@@ -23,7 +23,7 @@ public class Visibility {
 
     public void UpdateVisibility() {
         visible = ticksCount < visibilityTime;
-        if(ticksCount == (visibilityTime + invisibilityTime))
+        if(ticksCount == (visibilityTime + invisibilityTime - 1))
             ticksCount = 0;
         else
             ticksCount = ticksCount + 1;

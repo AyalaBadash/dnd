@@ -65,8 +65,21 @@ public abstract class Unit extends Tile implements Visitor, Visited, Listener {
 
     public void AfterAttack(int damage){
         health.SetHealthAmount ( health.GetHealthAmount () - damage );
-        if(health.GetHealthAmount () <= 0)
-            Dead ();
+        if(health.GetHealthAmount () == 0) {
+            Dead ( );
+        }
+    }
+
+    public Health getHealth() {
+        return health;
+    }
+
+    public int getAttackPoints() {
+        return attackPoints;
+    }
+
+    public int getDefensePoints() {
+        return defensePoints;
     }
 
     protected abstract void Dead();

@@ -4,13 +4,13 @@ import Model.Helpers.Health;
 
 public enum Minions {
 
-    LannisterSoldier("LannisterSoldier",'s',80,8,3,3,25),
-    LannisterKnight("LannisterKnight",'k', 200, 14, 8, 4, 50),
-    QueensGuard("QueensGuard",'q', 400, 20, 15,5,100),
+    LannisterSoldier("Lannister Soldier",'s',80,8,3,3,25),
+    LannisterKnight("Lannister Knight",'k', 200, 14, 8, 4, 50),
+    QueensGuard("Queen's Guard",'q', 400, 20, 15,5,100),
     Wright("Wright",'z', 600, 30, 15, 3,100),
-    BearWright("BearWright",'b', 1000,75,30,4,250),
-    GiantWright("GiantWright",'g', 1500,100,40,5,500),
-    WhiteWalker("WhiteWalker",'w',2000,150,50,6,1000);
+    BearWright("Bear Wright",'b', 1000,75,30,4,250),
+    GiantWright("Giant Wright",'g', 1500,100,40,5,500),
+    WhiteWalker("White Walker",'w',2000,150,50,6,1000);
 
     protected String name;
     protected char tile;

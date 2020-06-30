@@ -4,9 +4,9 @@ import Model.Helpers.Health;
 
 public enum Traps {
 
-    BonusTrap("BonusTrap",'B',1,1,1,250,1,5),
-    QueensTrap("QueensTrap",'Q',250,50,10,100,3,7),
-    DeathTrap("DeathTrap",'D',500,100,20,250,1,10);
+    BonusTrap("Bonus Trap",'B',1,1,1,250,1,5),
+    QueensTrap("Queens Trap",'Q',250,50,10,100,3,7),
+    DeathTrap("Death Trap",'D',500,100,20,250,1,10);
 
     String name;
     char tile;
